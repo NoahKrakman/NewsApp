@@ -29,10 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     RequestQueue requestQueue;
     Spinner dropdownmenu;
-    List<String> toReturnLiberal = new ArrayList<>();
-    List<String> toReturnConservative = new ArrayList<>();
-    List<String> toReturnSocialist = new ArrayList<>();
-    List<String> toReturnLibertarian = new ArrayList<>();
+    List<String> toReturn = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         List<String> list = new ArrayList<>();
         //Add choices to spinner
+        list.add("<Choose a bias>");
         list.add("Liberal");
         list.add("Socialist");
         list.add("Conservative");
@@ -57,42 +55,42 @@ public class MainActivity extends AppCompatActivity {
                 String itemValue = parent.getItemAtPosition(position).toString();
                 TextView mTextView = (TextView) findViewById(R.id.newsResults);
                 if (itemValue.equals("Liberal")) {
-                    toReturnLiberal.clear();
+                    //toReturn.clear();
                     getNews("https://newsapi.org/v2/everything?domains=thinkprogress.org,vox.com,huffingtonpost.com,slate.com,dailykos.com,msnbc.com,cnn.com&language=en&apiKey=df8268ee20df4c1b948e47bcaf26df49", "Liberal");
-                    String result = "";
-                    for (int i = 0; i < toReturnLiberal.size(); i++) {
-                        result += toReturnLiberal.get(i) + "\n\n";
+                    /*String result = "";
+                    for (int i = 0; i < toReturn.size(); i++) {
+                        result += toReturn.get(i) + "\n\n";
                     }
-                    mTextView.setText(result);
+                    mTextView.setText(result);*/
                 }
                 if (itemValue.equals("Conservative")) {
 
-                    toReturnConservative.clear();
-                            getNews("https://newsapi.org/v2/everything?domains=nationalreview.com,hotair.com,dailycaller.com,foxnews.com,theblaze.com,dailywire.com&apiKey=df8268ee20df4c1b948e47bcaf26df49", "Conservative");
-                    String result = "";
-                    for (int i = 0; i < toReturnConservative.size(); i++) {
-                        result += toReturnConservative.get(i) + "\n\n";
+                    //toReturn.clear();
+                    getNews("https://newsapi.org/v2/everything?domains=nationalreview.com,hotair.com,dailycaller.com,foxnews.com,theblaze.com,dailywire.com&apiKey=df8268ee20df4c1b948e47bcaf26df49", "Conservative");
+                    /*String result = "";
+                    for (int i = 0; i < toReturn.size(); i++) {
+                        result += toReturn.get(i) + "\n\n";
                     }
-                    mTextView.setText(result);
+                    mTextView.setText(result);*/
                 }
                 if (itemValue.equals("Socialist")) {
 
-                    toReturnSocialist.clear();
+                    //toReturn.clear();
                     getNews("https://newsapi.org/v2/everything?domains=morningstar.uk.co,wsws.org&apiKey=df8268ee20df4c1b948e47bcaf26df49", "Socialist");
-                    String result = "";
-                    for (int i = 0; i < toReturnSocialist.size(); i++) {
-                        result += toReturnSocialist.get(i) + "\n\n";
+                    /*String result = "";
+                    for (int i = 0; i < toReturn.size(); i++) {
+                        result += toReturn.get(i) + "\n\n";
                     }
-                    mTextView.setText(result);
+                    mTextView.setText(result);*/
                 }
                 if (itemValue.equals("Libertarian")) {
-                    toReturnLibertarian.clear();
+                    //toReturn.clear();
                     getNews("https://newsapi.org/v2/everything?domains=reason.com,cato.org&apiKey=df8268ee20df4c1b948e47bcaf26df49", "Libertarian");
-                    String result = "";
-                    for (int i = 0; i < toReturnLibertarian.size(); i++) {
-                        result += toReturnLibertarian.get(i) + "\n\n";
+                    /*String result = "";
+                    for (int i = 0; i < toReturn.size(); i++) {
+                        result += toReturn.get(i) + "\n\n";
                     }
-                    mTextView.setText(result);
+                    mTextView.setText(result);*/
                 }
             }
 
@@ -115,19 +113,17 @@ public class MainActivity extends AppCompatActivity {
                         public void onResponse(final JSONObject response) {
                             try {
                                 JSONArray articles = response.getJSONArray("articles");
+                                List<String> articleList = new ArrayList<>();
                                 for (int i = 0; i < articles.length(); i++) {
                                     JSONObject jsonObject = articles.getJSONObject(i);
-                                    if (type.equals("Libertarian")) {
-                                        toReturnLibertarian.add(jsonObject.getString("url"));
-                                    } else if (type.equals("Socialist")) {
-                                        toReturnSocialist.add(jsonObject.getString("url"));
-                                    } else if (type.equals("Conservative")) {
-                                        toReturnConservative.add(jsonObject.getString("url"));
-                                    } else {
-                                        toReturnLiberal.add(jsonObject.getString("url"));
-                                    }
-
+                                    articleList.add(jsonObject.getString("url"));
                                 }
+                                TextView mTextView = (TextView) findViewById(R.id.newsResults);
+                                String result = "";
+                                for (int i = 0; i < articleList.size(); i++) {
+                                    result += articleList.get(i) + "\n\n";
+                                }
+                                mTextView.setText(result);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
