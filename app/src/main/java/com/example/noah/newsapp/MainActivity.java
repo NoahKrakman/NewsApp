@@ -102,13 +102,14 @@ public class MainActivity extends AppCompatActivity {
                                     JSONObject jsonObject = articles.getJSONObject(i);
                                     String title = jsonObject.getString("title");
                                     String url = jsonObject.getString("url");
-                                    bothList.add("<a href=\"" + url + "\">" + title + "</a>" + "\n\n\n");
+                                    bothList.add("<a href=\"" + url + "\">" + title + "</a>");
                                 }
                                 TextView mTextView = (TextView) findViewById(R.id.newsResults);
                                 mTextView.setText("");
                                 for (int i = 0; i < bothList.size(); i++) {
                                     Spannable s = (Spannable) Html.fromHtml(bothList.get(i));
                                     mTextView.append(s);
+                                    mTextView.append("\n\n");
                                 }
 
 
