@@ -13,5 +13,6 @@
         android:text="News courtesy of NewsApi.org \n\n\n App Created by:\n Noah Krakman and Paul Latreille"
         android:textAlignment="center"
         android:textColor="@android:color/black"
+        android:autoLink="web"
         android:textSize="24sp" />
 </LinearLayout>

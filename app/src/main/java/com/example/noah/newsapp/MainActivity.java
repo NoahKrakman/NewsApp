@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
     RequestQueue requestQueue;
     Spinner dropdownmenu;
-    List<String> toReturn = new ArrayList<>();
 
 
     @Override
@@ -47,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         requestQueue = Volley.newRequestQueue(this);
-        dropdownmenu = (Spinner) findViewById(R.id.spinner);
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        dropdownmenu = findViewById(R.id.spinner);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
         List<String> list = new ArrayList<>();
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         list.add("Socialist");
         list.add("Conservative");
         list.add("Libertarian");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
 
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         dropdownmenu.setAdapter(adapter);
@@ -66,22 +65,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String itemValue = parent.getItemAtPosition(position).toString();
-                TextView mTextView = (TextView) findViewById(R.id.newsResults);
                 if (itemValue.equals("Liberal")) {
-                    getNews("https://newsapi.org/v2/everything?domains=thinkprogress.org,vox.com,huffingtonpost.com,slate.com,dailykos.com,msnbc.com,cnn.com&language=en&apiKey=df8268ee20df4c1b948e47bcaf26df49", "Liberal");
+                    getNews("https://newsapi.org/v2/everything?domains=thinkprogress.org,vox.com,huffingtonpost.com,slate.com,dailykos.com,msnbc.com,cnn.com&language=en&apiKey=df8268ee20df4c1b948e47bcaf26df49");
                 }
                 if (itemValue.equals("Conservative")) {
 
-                    getNews("https://newsapi.org/v2/everything?domains=nationalreview.com,hotair.com,dailycaller.com,foxnews.com,theblaze.com,dailywire.com&apiKey=df8268ee20df4c1b948e47bcaf26df49", "Conservative");
+                    getNews("https://newsapi.org/v2/everything?domains=nationalreview.com,hotair.com,dailycaller.com,foxnews.com,theblaze.com,dailywire.com&apiKey=df8268ee20df4c1b948e47bcaf26df49");
                 }
                 if (itemValue.equals("Socialist")) {
 
 
-                    getNews("https://newsapi.org/v2/everything?domains=morningstar.uk.co,jacobinmag.com,socialistworker.org,wsws.org&apiKey=df8268ee20df4c1b948e47bcaf26df49", "Socialist");
+                    getNews("https://newsapi.org/v2/everything?domains=morningstar.uk.co,jacobinmag.com,socialistworker.org,wsws.org&apiKey=df8268ee20df4c1b948e47bcaf26df49");
                 }
                 if (itemValue.equals("Libertarian")) {
 
-                    getNews("https://newsapi.org/v2/everything?domains=reason.com,cato.org&apiKey=df8268ee20df4c1b948e47bcaf26df49", "Libertarian");
+                    getNews("https://newsapi.org/v2/everything?domains=reason.com,cato.org&apiKey=df8268ee20df4c1b948e47bcaf26df49");
                 }
             }
 
@@ -108,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
-    public void getNews(final String url,final String type) {
+    public void getNews(final String url) {
 
         try {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -120,8 +118,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onResponse(final JSONObject response) {
                             try {
                                 JSONArray articles = response.getJSONArray("articles");
-                                List<String> titleList = new ArrayList<>();
-                                List<String> urlList = new ArrayList<>();
+
                                 List<String> bothList = new ArrayList<>();
 
                                 for (int i = 0; i < articles.length(); i++) {
@@ -130,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                                     String url = jsonObject.getString("url");
                                     bothList.add("<a href=\"" + url + "\">" + title + "</a>");
                                 }
-                                TextView mTextView = (TextView) findViewById(R.id.newsResults);
+                                TextView mTextView = findViewById(R.id.newsResults);
                                 mTextView.setText("");
                                 for (int i = 0; i < bothList.size(); i++) {
                                     Spannable s = (Spannable) Html.fromHtml(bothList.get(i));

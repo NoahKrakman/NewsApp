@@ -24,6 +24,7 @@ tools:context=".MainActivity">
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="match_parent"
