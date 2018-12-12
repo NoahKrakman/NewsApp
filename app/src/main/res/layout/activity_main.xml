@@ -33,7 +33,6 @@ tools:context=".MainActivity">
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:fontFamily="sans-serif-condensed"
-            android:autoLink="web"
             android:textAlignment="viewStart"
             android:textColor="@android:color/black" />
     </ScrollView>

@@ -2,6 +2,9 @@ package com.example.noah.newsapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -55,42 +58,20 @@ public class MainActivity extends AppCompatActivity {
                 String itemValue = parent.getItemAtPosition(position).toString();
                 TextView mTextView = (TextView) findViewById(R.id.newsResults);
                 if (itemValue.equals("Liberal")) {
-                    //toReturn.clear();
                     getNews("https://newsapi.org/v2/everything?domains=thinkprogress.org,vox.com,huffingtonpost.com,slate.com,dailykos.com,msnbc.com,cnn.com&language=en&apiKey=df8268ee20df4c1b948e47bcaf26df49", "Liberal");
-                    /*String result = "";
-                    for (int i = 0; i < toReturn.size(); i++) {
-                        result += toReturn.get(i) + "\n\n";
-                    }
-                    mTextView.setText(result);*/
                 }
                 if (itemValue.equals("Conservative")) {
 
-                    //toReturn.clear();
                     getNews("https://newsapi.org/v2/everything?domains=nationalreview.com,hotair.com,dailycaller.com,foxnews.com,theblaze.com,dailywire.com&apiKey=df8268ee20df4c1b948e47bcaf26df49", "Conservative");
-                    /*String result = "";
-                    for (int i = 0; i < toReturn.size(); i++) {
-                        result += toReturn.get(i) + "\n\n";
-                    }
-                    mTextView.setText(result);*/
                 }
                 if (itemValue.equals("Socialist")) {
 
-                    //toReturn.clear();
-                    getNews("https://newsapi.org/v2/everything?domains=morningstar.uk.co,wsws.org&apiKey=df8268ee20df4c1b948e47bcaf26df49", "Socialist");
-                    /*String result = "";
-                    for (int i = 0; i < toReturn.size(); i++) {
-                        result += toReturn.get(i) + "\n\n";
-                    }
-                    mTextView.setText(result);*/
+
+                    getNews("https://newsapi.org/v2/everything?domains=morningstar.uk.co,jacobinmag.com,socialistworker.org,wsws.org&apiKey=df8268ee20df4c1b948e47bcaf26df49", "Socialist");
                 }
                 if (itemValue.equals("Libertarian")) {
-                    //toReturn.clear();
+
                     getNews("https://newsapi.org/v2/everything?domains=reason.com,cato.org&apiKey=df8268ee20df4c1b948e47bcaf26df49", "Libertarian");
-                    /*String result = "";
-                    for (int i = 0; i < toReturn.size(); i++) {
-                        result += toReturn.get(i) + "\n\n";
-                    }
-                    mTextView.setText(result);*/
                 }
             }
 
@@ -113,17 +94,26 @@ public class MainActivity extends AppCompatActivity {
                         public void onResponse(final JSONObject response) {
                             try {
                                 JSONArray articles = response.getJSONArray("articles");
-                                List<String> articleList = new ArrayList<>();
+                                List<String> titleList = new ArrayList<>();
+                                List<String> urlList = new ArrayList<>();
+                                List<String> bothList = new ArrayList<>();
+
                                 for (int i = 0; i < articles.length(); i++) {
                                     JSONObject jsonObject = articles.getJSONObject(i);
-                                    articleList.add(jsonObject.getString("url"));
+                                    String title = jsonObject.getString("title");
+                                    String url = jsonObject.getString("url");
+                                    bothList.add("<a href=\"" + url + "\">" + title + "</a>" + "\n\n\n");
                                 }
                                 TextView mTextView = (TextView) findViewById(R.id.newsResults);
-                                String result = "";
-                                for (int i = 0; i < articleList.size(); i++) {
-                                    result += articleList.get(i) + "\n\n";
+                                mTextView.setText("");
+                                for (int i = 0; i < bothList.size(); i++) {
+                                    Spannable s = (Spannable) Html.fromHtml(bothList.get(i));
+                                    mTextView.append(s);
                                 }
-                                mTextView.setText(result);
+
+
+
+                                mTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
